@@ -20,8 +20,10 @@ class PaymentSuccessBloc
   PaymentSuccessBloc() : super(PaymentSuccessState()) {
     on<InitPaymentSuccessEvent>((event, emit) async {
       final walletRepo = GetIt.instance.get<WalletRepo>();
-      final User user =
-          User.fromJson(jsonDecode(prefs.getString(Preferences.user)!));
+      late final User user;
+      if (prefs.getString(Preferences.user) != null) {
+        user = User.fromJson(jsonDecode(prefs.getString(Preferences.user)!));
+      }
       final transaction = event.transacion;
       if (transaction.type == "TRANSFER") {
         try {

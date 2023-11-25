@@ -27,7 +27,6 @@ class Authenticator {
     return _appService
         .login(_requestFactory.createLogin(username, password, fcmToken))
         .then((http) async {
-      print("LOGIN: $http.response.statusCode");
       if (http.response.statusCode != 200) {
         return false;
       }
@@ -70,21 +69,19 @@ class Authenticator {
     _logger.i("User logged out");
   }
 
-  Future<String?> register(String fullName, String password, String phone,
+  Future<int?> register(String fullName, String password, String phone,
       String identifyID, String dob) async {
     return _appService
         .register(_requestFactory.createRegister(
             fullName, password, phone, identifyID, dob))
         .then((http) {
-      print(http.response.statusCode);
       if (http.response.statusCode != 200) {
         return null;
       }
-      String? otp;
+      int? otp;
 
       if (http.data['message'] == 'OTP SENT') {
-        otp = http.data['otp'];
-        print("OTP received: $otp");
+        otp = http.data['otp_data']['otp'];
       }
       return otp;
     });
@@ -92,7 +89,8 @@ class Authenticator {
 
   Future<bool> verify() async {
     return _appService
-        .verify('Bearer ' + _sharedPreferences.getString(Preferences.token)!)
+        .verify(
+            'Bearer ${_sharedPreferences.getString(Preferences.token) ?? ""}')
         .then((http) async {
       if (http.response.statusCode != 200) {
         return false;
@@ -111,14 +109,11 @@ class Authenticator {
     String otp,
   ) async {
     return _appService
-        .verifyOtp(_sharedPreferences.getString('token')!,
-            _requestFactory.createOTP(phoneNumber, otp))
+        .verifyOtp(_requestFactory.createOTP(phoneNumber, otp))
         .then((http) async {
-      print(http.response.statusCode);
-      if (http.response.statusCode != 200) {
-        return null;
+      if (http.response.statusCode != 200 && http.response.statusCode != 201) {
+        return http.response.data;
       }
-      
       return http.response.data;
     });
   }

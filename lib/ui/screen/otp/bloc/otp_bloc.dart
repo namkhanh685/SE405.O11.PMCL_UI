@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
+import 'package:nfc_e_wallet/data/preferences.dart';
 import 'package:nfc_e_wallet/data/repositories/authenticator.dart';
+import 'package:nfc_e_wallet/main.dart';
 
 part 'otp_event.dart';
 part 'otp_state.dart';
@@ -18,6 +22,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
             await authenticator.verifyOtp(event.phoneNumber, event.otp);
         if (data != null) {
           if (data["type"] == "REGISTER") {
+            await prefs.setString(Preferences.user, jsonEncode(data["user"]));
             emit(OtpSuccess(type: "REGISTER", data: data));
           } else if (data["type"] == "TRANSFER_TRANSACTION") {
             emit(OtpSuccess(type: "TRANSFER_TRANSACTION", data: data["from_Transaction"]));

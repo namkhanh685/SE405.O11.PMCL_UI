@@ -60,11 +60,14 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
   }
 
   void initVariables() {
-    user = User.fromJson(jsonDecode(prefs.getString(Preferences.user)!));
-    final userJson = jsonDecode(prefs.getString(Preferences.user)!);
+    late final userJson;
+    if (prefs.getString(Preferences.user) != null) {
+      userJson = jsonDecode(prefs.getString(Preferences.user)!);
+      user = User.fromJson(userJson);
+    }
     for (var wallet in userJson["wallets"]) {
       listWallet.add(Wallet.fromJson(wallet));
-      
+
       if (wallet["type"] == "DefaultWallet") {
         defaultWallet = Wallet.fromJson(wallet);
       }
@@ -73,7 +76,7 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
 
   void initNFC() async {
     //INIT NFC
-    final port = 0;
+    const port = 0;
     // change data to transmit here
 
     final data = utf8.encode(defaultWallet.id.toString());

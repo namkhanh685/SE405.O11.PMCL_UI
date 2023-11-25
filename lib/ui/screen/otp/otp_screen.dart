@@ -36,7 +36,7 @@ class OTPScreenState extends State<OTPScreen> {
                   status: ToastStatus.success);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RootApp()),
+                MaterialPageRoute(builder: (context) => const RootApp()),
               );
             } else if (state.type == "TRANSFER_TRANSACTION" ||
                 state.type == "TRANSACTION") {
@@ -63,10 +63,10 @@ class OTPScreenState extends State<OTPScreen> {
             elevation: 0,
             centerTitle: true,
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Color(0xFF2196F3)),
+              icon: const Icon(Icons.arrow_back, color: Color(0xFF2196F3)),
               onPressed: () => Navigator.of(context).pop(),
             ),
-            title: Text("Enter OTP code",
+            title: const Text("Enter OTP code",
                 style: TextStyle(fontSize: 26, color: Color(0xFF2196F3))),
           ),
           body: Container(
@@ -76,14 +76,14 @@ class OTPScreenState extends State<OTPScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Code sent via Phone Number to",
+                  const Text("Code sent via Phone Number to",
                       style: TextStyle(fontSize: 16),
                       textAlign: TextAlign.center),
                   Text(phoneNumber,
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   PinCodeTextField(
                     appContext: context,
                     length: 6,
@@ -106,10 +106,10 @@ class OTPScreenState extends State<OTPScreen> {
                   TextButton(
                     onPressed: () =>
                         context.read<OtpBloc>().add(ResendOtpEvent()),
-                    child: Text("Resend Code",
+                    child: const Text("Resend Code",
                         style: TextStyle(color: Color(0xFF2196F3))),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   StreamBuilder<String>(
                     stream: _otpStreamController.stream,
                     builder: (context, snapshot) {
@@ -118,28 +118,27 @@ class OTPScreenState extends State<OTPScreen> {
                       return BlocBuilder<OtpBloc, OtpState>(
                         builder: (context, state) {
                           if (state is OtpLoading) {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator();
                           } else {
                             return ElevatedButton(
                               onPressed: isValidLength
                                   ? () {
-                                      print(_otpController.text);
                                       context.read<OtpBloc>().add(
                                           SubmitOtpEvent(_otpController.text,
                                               phoneNumber));
                                     }
                                   : null,
-                              child: Text("Continue"),
                               style: ElevatedButton.styleFrom(
-                                primary:
+                                backgroundColor:
                                     isValidLength ? Colors.green : Colors.grey,
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: 50, vertical: 10),
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              child: const Text("Continue"),
                             );
                           }
                         },

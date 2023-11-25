@@ -68,7 +68,7 @@ class PaymentPageState extends State<PaymentPage> {
                     ? 390 / 675
                     : 350 / 455,
                 child: Container(
-                  padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
+                  padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
@@ -117,7 +117,7 @@ class PaymentPageState extends State<PaymentPage> {
                                     ],
                                   )
                                 ]),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             TypeAheadField(
@@ -139,7 +139,7 @@ class PaymentPageState extends State<PaymentPage> {
                                 Map<String, dynamic> userSuggestion =
                                     suggestion as Map<String, dynamic>;
                                 return ListTile(
-                                  leading: Icon(Icons.account_circle),
+                                  leading: const Icon(Icons.account_circle),
                                   title: Text(userSuggestion["name"] ?? ''),
                                   subtitle: Text(userSuggestion["phone"] ?? ''),
                                 );
@@ -170,13 +170,13 @@ class PaymentPageState extends State<PaymentPage> {
                                 labelText: "Nhập mệnh giá",
                                 suffixText: "đ",
                                 prefixIcon:
-                                    Icon(Icons.monetization_on_outlined),
+                                    const Icon(Icons.monetization_on_outlined),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30.0),
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
@@ -190,7 +190,7 @@ class PaymentPageState extends State<PaymentPage> {
                                     context, suggestIconHeight, '10.000.000')
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
@@ -225,7 +225,7 @@ class PaymentPageState extends State<PaymentPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
@@ -294,7 +294,7 @@ class PaymentPageState extends State<PaymentPage> {
                               ),
                             ),
                           )),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       )
                     ],

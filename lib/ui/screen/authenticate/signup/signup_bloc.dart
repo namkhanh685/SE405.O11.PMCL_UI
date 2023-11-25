@@ -1,9 +1,9 @@
-import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
+import 'package:nfc_e_wallet/data/preferences.dart';
 import 'package:nfc_e_wallet/main.dart';
 
 import '../../../../data/repositories/authenticator.dart';
@@ -17,7 +17,7 @@ class SignupBloc extends Bloc<SignupEvent,SignupInfoState>{
     on<SignupEvent>((event,emit) async {
       var authenticator = GetIt.instance.get<Authenticator>();
       try {
-        String? otp = await authenticator.register(
+        int? otp = await authenticator.register(
           event.fullName as String,
           event.password as String,
           event.phone as String,
@@ -25,7 +25,6 @@ class SignupBloc extends Bloc<SignupEvent,SignupInfoState>{
           event.dob as String,
         );
         if(otp != null) {
-          print("Register success. OTP: $otp");
           emit(SignupInfoState(signupStatus: SignupStatus.Success));
 
           await NotificationManager.showNotification(

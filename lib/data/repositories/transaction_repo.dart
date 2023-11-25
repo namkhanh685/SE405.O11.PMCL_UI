@@ -20,11 +20,10 @@ class TransactionRepo {
       String fromUser, String toUser, String amount, String message) async {
     return _appService
         .createTransferTransaction(
-            _sharedPreferences.getString('token')!,
+            _sharedPreferences.getString('token') ?? "",
             _requestFactory.createTransferTransaction(
                 fromUser, toUser, amount, message))
         .then((http) async {
-      print(http.response.statusCode);
       if (http.response.statusCode != 200) {
         return null;
       }
@@ -42,11 +41,10 @@ class TransactionRepo {
       String message, String type) async {
     return _appService
         .createTransaction(
-            _sharedPreferences.getString('token')!,
+            _sharedPreferences.getString('token') ?? "",
             _requestFactory.createTransaction(
                 fromUser, toUser, amount, message, type))
         .then((http) async {
-      print(http.response.statusCode);
       if (http.response.statusCode != 200) {
         return null;
       }
@@ -54,7 +52,6 @@ class TransactionRepo {
 
       if (http.data['message'] == 'OTP SENT') {
         otp = http.data['otp'];
-        print("OTP received: $otp");
       }
       return otp;
     });
@@ -62,9 +59,8 @@ class TransactionRepo {
 
   Future<List<dynamic>?> getListTransaction(String userId) async {
     return _appService
-        .getListTransaction(userId, _sharedPreferences.getString('token')!)
+        .getListTransaction(userId, (_sharedPreferences.getString('token') ?? ""))
         .then((http) async {
-      print(http.response.statusCode);
       if (http.response.statusCode != 200) {
         return [];
       }

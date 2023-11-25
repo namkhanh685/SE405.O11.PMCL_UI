@@ -12,7 +12,7 @@ import '../model/user.dart';
 import '../remote/app_service.dart';
 import '../remote/request_factory.dart';
 
-class UserRepo{
+class UserRepo {
   final EventBus _eventBus;
   final Logger _logger;
   final SharedPreferences _sharedPreferences;
@@ -24,13 +24,11 @@ class UserRepo{
 
   Future<User?> getUser(String id) async {
     return _appService
-        .getUser(id ,_sharedPreferences.getString('token')!)
+        .getUser(id, (_sharedPreferences.getString('token') ?? ""))
         .then((http) async {
-      print(http.response.statusCode);
       if (http.response.statusCode != 200) {
         return null;
-      }
-      else{
+      } else {
         return http.data.toUser();
       }
     });
@@ -38,9 +36,9 @@ class UserRepo{
 
   Future<String?> getUserByPhoneNumber(String phoneNumber) async {
     return _appService
-        .getUserByPhoneNumber(phoneNumber, _sharedPreferences.getString('token')!)
+        .getUserByPhoneNumber(
+            phoneNumber, (_sharedPreferences.getString('token') ?? ""))
         .then((http) async {
-      print(http.response.statusCode);
       if (http.response.statusCode != 200) {
         return null;
       } else {
@@ -49,17 +47,17 @@ class UserRepo{
     });
   }
 
-  Future<bool> updateUser(String username, String email, String firstname, String lastname,String phone, String address,int gender) async {
+  Future<bool> updateUser(String username, String email, String firstname,
+      String lastname, String phone, String address, int gender) async {
     return _appService
         .updateUser(
-        'Bearer '+_sharedPreferences.getString('token')!
-          ,_requestFactory.updateUser(username, email, firstname, lastname, phone, address, gender))
+            _sharedPreferences.getString('token') ?? "",
+            _requestFactory.updateUser(
+                username, email, firstname, lastname, phone, address, gender))
         .then((http) async {
-      print(http.response.statusCode);
       if (http.response.statusCode != 200) {
         return false;
-      }
-      else{
+      } else {
         return true;
       }
     });
@@ -67,42 +65,10 @@ class UserRepo{
 
   Future<bool> changePassWord(String password) async {
     return _appService
-        .updateUser(
-        'Bearer '+_sharedPreferences.getString('token')!
-          ,_requestFactory.updateUserPassWord(password))
+        .updateUser(_sharedPreferences.getString('token') ?? "",
+            _requestFactory.updateUserPassWord(password))
         .then((http) async {
-      print(http.response.statusCode);
       return (http.response.statusCode != 200);
-    });
-  }
-
-  Future<List<String>?> getListAvatarId(String id) async {
-    return _appService
-        .getListAvatarId(id)
-        .then((http) async {
-      print(http.response.statusCode);
-      if (http.response.statusCode != 200) {
-        return [];
-      }
-      else{
-        return http.data.data;
-      }
-    });
-  }
-
-  Future<bool> updateAvatar(File file) async {
-    return _appService
-        .updateAvatar(
-        'Bearer '+_sharedPreferences.getString('token')!
-          ,file)
-        .then((http) async {
-      print(http.response.statusCode);
-      if (http.response.statusCode != 200) {
-        return false;
-      }
-      else{
-        return true;
-      }
     });
   }
 }

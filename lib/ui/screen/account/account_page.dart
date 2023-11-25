@@ -1,18 +1,13 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:intl/intl.dart';
 import 'package:nfc_e_wallet/data/model/wallet.dart';
-import 'package:nfc_e_wallet/data/preferences.dart';
 import 'package:nfc_e_wallet/main.dart';
-import 'package:nfc_e_wallet/ui/screen/authenticate/login/authenticate_bloc.dart';
 import 'package:nfc_e_wallet/ui/screen/security/security_screen.dart';
 import 'package:nfc_e_wallet/ui/screen/wallet/add_wallet_page.dart';
 import 'package:nfc_e_wallet/ui/screen/wallet/bloc/wallet_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../../data/model/user.dart';
 import '../../style/color.dart';
 import '../../style/constants.dart';
 import '../../widgets/profile_widget.dart';

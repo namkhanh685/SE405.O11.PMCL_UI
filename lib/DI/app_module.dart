@@ -16,7 +16,7 @@ import '../data/repositories/wallet_repo.dart';
 abstract class RegisterModule {
   @singleton
   @Named('baseUrl')
-  String get baseUrl => "https://ewallet-server.as.r.appspot.com";
+  String get baseUrl => "http://10.0.2.2:8080";
 
   @singleton
   Logger get logger => Logger(

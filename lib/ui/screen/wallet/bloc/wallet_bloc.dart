@@ -17,7 +17,10 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   WalletBloc() : super(WalletState()) {
     on<InitWalletEvent>((event, emit) async {
       var walletRepo = GetIt.instance.get<WalletRepo>();
-      final user = jsonDecode(prefs.getString(Preferences.user)!);
+      late final user;
+      if (prefs.getString(Preferences.user) != null) {
+        user =jsonDecode(prefs.getString(Preferences.user)!);
+      }
       List<Wallet> listWallet = [];
       for (var wallet in user["wallets"]) {
         listWallet.add(Wallet.fromJson(wallet));

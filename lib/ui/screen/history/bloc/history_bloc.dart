@@ -18,8 +18,10 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
   HistoryBloc() : super(HistoryState()) {
     on<InitHistoryEvent>((event, emit) async {
       final transactionRepo = GetIt.instance.get<TransactionRepo>();
-      final User user =
-          User.fromJson(jsonDecode(prefs.getString(Preferences.user)!));
+      late final User user;
+      if (prefs.getString(Preferences.user) != null) {
+        user = User.fromJson(jsonDecode(prefs.getString(Preferences.user)!));
+      }
       try {
         List<Transaction> listTransaction = [];
         await transactionRepo.getListTransaction(user.id.toString()).then(
@@ -38,5 +40,4 @@ class HistoryBloc extends Bloc<HistoryEvent, HistoryState> {
       }
     });
   }
-
 }
