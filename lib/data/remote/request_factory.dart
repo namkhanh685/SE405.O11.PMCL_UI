@@ -22,13 +22,14 @@ class RequestFactory {
     };
   }
 
-  createRegister(String fullName, String password, String phone, String identifyID, String dob) {
+  createRegister(String fullName, String password, String phone, String identifyID, String dob, String fcmToken) {
     return {
       "full_name": fullName,
       "password": password,
       "phone_number": phone,
       "identify_ID": identifyID,
-      "birthday": dob
+      "birthday": dob,
+      "deviceToken": fcmToken
     };
   }
 

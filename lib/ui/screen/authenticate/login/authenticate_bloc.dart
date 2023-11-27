@@ -18,19 +18,17 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationInfoSta
       try
       {
         bool loginstate = await authenticator.login(
-            event.phoneNumber as String, event.password as String, FCMToken!);
+            event.phoneNumber, event.password, FCMToken);
 
         if(loginstate) {
-          print("Login success");
           emit(AuthenticationInfoState(authenStatus: authenticateStatus.Authorized));
         } else {
-          print("Log in failed");
           emit(AuthenticationInfoState(authenStatus: authenticateStatus.unAuthorized));
         }
       }
       catch(e)
       {
-        if(e is DioError){
+        if(e is DioException){
           print(e.response!.data);
         }
         print("Log in failed due to exception: $e");

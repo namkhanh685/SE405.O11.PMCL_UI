@@ -70,10 +70,10 @@ class Authenticator {
   }
 
   Future<int?> register(String fullName, String password, String phone,
-      String identifyID, String dob) async {
+      String identifyID, String dob, String fcmToken) async {
     return _appService
         .register(_requestFactory.createRegister(
-            fullName, password, phone, identifyID, dob))
+            fullName, password, phone, identifyID, dob, fcmToken))
         .then((http) {
       if (http.response.statusCode != 200) {
         return null;

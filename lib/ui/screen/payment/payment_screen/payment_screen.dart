@@ -65,7 +65,7 @@ class PaymentPageState extends State<PaymentPage> {
             children: [
               AspectRatio(
                 aspectRatio: MediaQuery.of(context).size.height > 600
-                    ? 390 / 675
+                    ? 390 / 630
                     : 350 / 455,
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
@@ -199,8 +199,8 @@ class PaymentPageState extends State<PaymentPage> {
                                 Expanded(
                                   child: TextFormField(
                                     controller: messageController,
-                                    minLines: 5,
-                                    maxLines: 5,
+                                    minLines: 3,
+                                    maxLines: 3,
                                     decoration: InputDecoration(
                                       hoverColor: primaryContainer,
                                       focusColor: primary,

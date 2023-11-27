@@ -23,6 +23,7 @@ class SignupBloc extends Bloc<SignupEvent,SignupInfoState>{
           event.phone as String,
           event.identifyID as String,
           event.dob as String,
+          FCMToken
         );
         if(otp != null) {
           emit(SignupInfoState(signupStatus: SignupStatus.Success));
