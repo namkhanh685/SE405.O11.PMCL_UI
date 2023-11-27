@@ -23,7 +23,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
         if (data != null) {
           if (data["type"] == "REGISTER") {
             await prefs.setString(Preferences.user, jsonEncode(data["user"]));
-            await prefs.setString(Preferences.token, jsonEncode(data["accessToken"]["token"]));
+            await prefs.setString(Preferences.token, data["accessToken"]["token"] as String);
             emit(OtpSuccess(type: "REGISTER", data: data));
           } else if (data["type"] == "TRANSFER_TRANSACTION") {
             emit(OtpSuccess(type: "TRANSFER_TRANSACTION", data: data["from_Transaction"]));
