@@ -11,6 +11,7 @@ import 'package:nfc_e_wallet/data/repositories/transaction_repo.dart';
 import 'package:nfc_e_wallet/data/repositories/user_repo.dart';
 import 'package:nfc_e_wallet/main.dart';
 import 'package:nfc_e_wallet/utils/notification_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'payment_confirm_event.dart';
 part 'payment_confirm_state.dart';
@@ -92,61 +93,118 @@ class PaymentConfirmBloc
         }
       } else if (event.type == "DEPOSIT") {
         final transactionRepo = GetIt.instance.get<TransactionRepo>();
-        try {
-          String amount = state.amount;
-          if (amount.contains(RegExp(r'(\.|[đ])'))) {
-            amount = amount.replaceAll(RegExp(r'(\.|[đ])'), '');
-          }
-
-          String? otp = await transactionRepo.createTransaction(state.bank!,
-              defaultWallet.id.toString(), amount, state.message!, event.type);
-          if (otp != null) {
-            print("Create deposit transaction success. OTP: $otp");
-
-            emit(state.copyWith(isSuccess: true));
-
-            await NotificationManager.showNotification(
-              id: 0,
-              title: 'OTP Received',
-              body: 'Your OTP is $otp',
-            );
-          }
-        } catch (exception) {
-          if (exception is DioException) {
-            print(exception.response!.data);
-          }
-          print("Get user data failed due to exception: $exception");
+        String amount = state.amount;
+        if (amount.contains(RegExp(r'(\.|[đ])'))) {
+          amount = amount.replaceAll(RegExp(r'(\.|[đ])'), '');
+        }
+        switch (state.bank) {
+          case "PAYPAL":
+            try {
+              String? response =
+                  await transactionRepo.createPaypalDepositTransaction(
+                amount,
+                state.message!,
+              );
+              if (!await launchUrl(Uri.parse(response!))) {
+                throw Exception('Could not launch $response');
+              }
+            } catch (exception) {
+              if (exception is DioException) {
+                print(exception.response!.data);
+              }
+              print("Get user data failed due to exception: $exception");
+            }
+            break;
+          case 'VNPAY':
+            try {
+              String? response = await transactionRepo.createVNPayTransaction(
+                amount,
+                state.message!,
+              );
+              if (!await launchUrl(Uri.parse(response!))) {
+                throw Exception('Could not launch $response');
+              }
+            } catch (exception) {
+              if (exception is DioException) {
+                print(exception.response!.data);
+              }
+              print("Get user data failed due to exception: $exception");
+            }
+            break;
+          default:
+            try {
+              String? otp = await transactionRepo.createTransaction(
+                  state.bank!,
+                  defaultWallet.id.toString(),
+                  amount,
+                  state.message!,
+                  event.type);
+              if (otp != null) {
+                emit(state.copyWith(isSuccess: true));
+                await NotificationManager.showNotification(
+                  id: 0,
+                  title: 'OTP Received',
+                  body: 'Your OTP is $otp',
+                );
+              }
+            } catch (exception) {
+              if (exception is DioException) {
+                print(exception.response!.data);
+              }
+              print("Get user data failed due to exception: $exception");
+            }
+            break;
         }
       } else if (event.type == "WITHDRAW") {
         final transactionRepo = GetIt.instance.get<TransactionRepo>();
-        try {
-          String amount = state.amount;
-          if (amount.contains(RegExp(r'(\.|[đ])'))) {
-            amount = amount.replaceAll(RegExp(r'(\.|[đ])'), '');
-          }
+        String amount = state.amount;
+        if (amount.contains(RegExp(r'(\.|[đ])'))) {
+          amount = amount.replaceAll(RegExp(r'(\.|[đ])'), '');
+        }
 
-          String? otp = await transactionRepo.createTransaction(
-              defaultWallet.id.toString(),
-              state.bank!,
-              amount,
-              state.message!,
-              event.type);
-          if (otp != null) {
-            print("Create withdraw transaction success. OTP: $otp");
+        switch (state.bank) {
+          case "PAYPAL":
+            try {
+              String? response = await transactionRepo.createPaypalWithdrawTransaction(
+                amount,
+                state.message!,
+              );
+              if (!await launchUrl(Uri.parse(response!))) {
+                throw Exception('Could not launch $response');
+              }
+            } catch (exception) {
+              if (exception is DioException) {
+                print(exception.response!.data);
+              }
+              print("Get user data failed due to exception: $exception");
+            }
+            break;
+          default:
+            try {
+              String? otp = await transactionRepo.createTransaction(
+                  defaultWallet.id.toString(),
+                  state.bank!,
+                  amount,
+                  state.message!,
+                  event.type);
+              if (otp != null) {
+                print("Create withdraw transaction success. OTP: $otp");
 
-            emit(state.copyWith(isSuccess: true));
+                emit(state.copyWith(isSuccess: true));
 
-            await NotificationManager.showNotification(
-              id: 0,
-              title: 'OTP Received',
-              body: 'Your OTP is $otp',
-            );
-          }
-        } catch (exception) {
-          if (exception is DioException) {
-            print(exception.response!.data);
-          }
-          print("Get user data failed due to exception: $exception");
+                await NotificationManager.showNotification(
+                  id: 0,
+                  title: 'OTP Received',
+                  body: 'Your OTP is $otp',
+                );
+              }
+            } catch (exception) {
+              if (exception is DioException) {
+                print(exception.response!.data);
+              }
+              print("Get user data failed due to exception: $exception");
+            }
+            break;
         }
       }
     });

@@ -54,6 +54,7 @@ dependencies:
   nfc_host_card_emulation: ^1.1.0
   firebase_messaging: ^14.6.3
   firebase_core: ^2.14.0
+  url_launcher: ^6.1.14
 
 dev_dependencies:
   flutter_test:

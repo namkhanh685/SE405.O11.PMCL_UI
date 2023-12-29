@@ -92,9 +92,26 @@ class RequestFactory {
     };
   }
 
-  updateAvatar(FormData path){
+  createPaypalDepositTransaction(String amount, String message){
     return {
-      "file": path,
+      "amount": amount,
+      "message": message
+    };
+  }
+
+  createVNPayTransaction(String amount, String message){
+    return {
+      "amount": amount,
+      "message": message,
+      "locale": "vn"
+    };
+  }
+
+  createPaypalWithdrawTransaction(String otp, String phoneNumber){
+    return {
+      "otp": otp,
+      "phone_number": phoneNumber,
+      "email": "sb-qypaq28681777@personal.example.com"
     };
   }
 }

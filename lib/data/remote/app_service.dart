@@ -64,4 +64,14 @@ abstract class AppService {
 
   @PUT("/user/update")
   Future<HttpResponse> updateUser(@Header('Authorization') String token, @Body() Map<String, dynamic> request);
+
+  @POST("/paypal_deposit")
+  Future<HttpResponse> createPaypalDepositTransaction(@Header('Authorization') String token, @Body() Map<String, dynamic> request);
+
+  @POST("/vnp_payment")
+  Future<HttpResponse> createVNPayTransaction(@Header('Authorization') String token, @Body() Map<String, dynamic> request);
+
+  @POST("/paypal_withdraw")
+  Future<HttpResponse> createPaypalWithdrawTransaction(@Header('Authorization') String token, @Body() Map<String, dynamic> request);
+
 }

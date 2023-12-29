@@ -122,16 +122,10 @@ class _WithdrawPage extends State<WithdrawPage> {
                               ProfileWidget(
                                 icon: FontAwesomeIcons.creditCard,
                                 iconColor: black,
-                                title: 'Nạp tiền bằng thẻ ngân hàng',
+                                title: 'Rút tiền về Paypal',
                                 subtitle: "Miễn phí",
-                                onTap: () {},
+                                onTap: () => showOtherPaymentModal("PAYPAL"),
                               ),
-                              ProfileWidget(
-                                  icon: FontAwesomeIcons.shop,
-                                  iconColor: black,
-                                  title: 'Nạp tiền tại điểm giao dịch',
-                                  subtitle: "Miễn phí",
-                                  onTap: () {}),
                             ],
                           ))),
                   Expanded(
@@ -390,6 +384,19 @@ class _WithdrawPage extends State<WithdrawPage> {
           receiverPhoneNumber: user.phone_number,
           amount: withdrawController.text,
           type: "WITHDRAW",
+        );
+      });
+
+  showOtherPaymentModal(String paymentMethod) => showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+      builder: (BuildContext context) {
+        return PaymentConfirm(
+          bank: paymentMethod,
+          type: "WITHDRAW",
+          receiverPhoneNumber: user.phone_number,
+          amount: withdrawController.text,
         );
       });
 }

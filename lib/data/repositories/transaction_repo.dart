@@ -37,8 +37,8 @@ class TransactionRepo {
     });
   }
 
-  Future<String?> createTransaction(String fromUser, String toUser, String amount,
-      String message, String type) async {
+  Future<String?> createTransaction(String fromUser, String toUser,
+      String amount, String message, String type) async {
     return _appService
         .createTransaction(
             _sharedPreferences.getString('token') ?? "",
@@ -59,7 +59,8 @@ class TransactionRepo {
 
   Future<List<dynamic>?> getListTransaction(String userId) async {
     return _appService
-        .getListTransaction(userId, (_sharedPreferences.getString('token') ?? ""))
+        .getListTransaction(
+            userId, (_sharedPreferences.getString('token') ?? ""))
         .then((http) async {
       if (http.response.statusCode != 200) {
         return [];
@@ -67,4 +68,48 @@ class TransactionRepo {
       return http.response.data;
     });
   }
+
+  Future<String?> createPaypalDepositTransaction(
+      String amount, String message) async {
+    return _appService
+        .createPaypalDepositTransaction(
+            (_sharedPreferences.getString('token') ?? ""),
+            _requestFactory.createPaypalDepositTransaction(amount, message))
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      return http.data["url"];
+    });
+  }
+
+  Future<String?> createVNPayTransaction(
+      String amount, String message) async {
+    return _appService
+        .createVNPayTransaction(
+            (_sharedPreferences.getString('token') ?? ""),
+            _requestFactory.createVNPayTransaction(amount, message))
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      return http.data["data"];
+    });
+  }
+
+  Future<String?> createPaypalWithdrawTransaction(
+      String otp, String phoneNumber) async {
+    return _appService
+        .createPaypalWithdrawTransaction(
+            (_sharedPreferences.getString('token') ?? ""),
+            _requestFactory.createPaypalWithdrawTransaction(otp, phoneNumber))
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      return http.data["url"];
+    });
+  }
+
+
 }

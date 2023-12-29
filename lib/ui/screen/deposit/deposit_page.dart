@@ -134,16 +134,16 @@ class _DepositPage extends State<DepositPage> {
                                   ProfileWidget(
                                     icon: FontAwesomeIcons.creditCard,
                                     iconColor: black,
-                                    title: 'Nạp tiền bằng thẻ ngân hàng',
+                                    title: 'Nạp tiền bằng VNPay',
                                     subtitle: "Miễn phí",
-                                    onTap: () {},
+                                    onTap: () => showOtherPaymentModal('VNPAY'),
                                   ),
                                   ProfileWidget(
                                       icon: FontAwesomeIcons.shop,
                                       iconColor: black,
-                                      title: 'Nạp tiền tại điểm giao dịch',
+                                      title: 'Nạp tiền bằng Paypal',
                                       subtitle: "Miễn phí",
-                                      onTap: () {}),
+                                      onTap: () => showOtherPaymentModal('PAYPAL')),
                                 ],
                               ))),
                       Expanded(
@@ -415,6 +415,19 @@ class _DepositPage extends State<DepositPage> {
       builder: (BuildContext context) {
         return PaymentConfirm(
           bank: listWallet[groupValue].name,
+          type: "DEPOSIT",
+          receiverPhoneNumber: user.phone_number,
+          amount: amountController.text.toString(),
+        );
+      });
+
+  showOtherPaymentModal(String paymentMethod) => showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+      builder: (BuildContext context) {
+        return PaymentConfirm(
+          bank: paymentMethod,
           type: "DEPOSIT",
           receiverPhoneNumber: user.phone_number,
           amount: amountController.text.toString(),
