@@ -32,8 +32,8 @@ abstract class AppService {
   @POST("/user/change_password/{id}")
   Future<HttpResponse> changePassword(@Path('id') String id, @Body() Map<String, dynamic> request);
 
-  @GET("/user/{id}")
-  Future<HttpResponse<BaseResponse>> getUser(@Path('id') String id, @Header('Authorization') String token);
+  @GET("/user/get_full_user/{id}")
+  Future<HttpResponse<BaseResponse>> getFullUser(@Path('id') String id, @Header('Authorization') String token);
 
   @GET("/user/get_user_by_phone_number/{phone_number}")
   Future<HttpResponse<BaseResponse>> getUserByPhoneNumber(
@@ -52,7 +52,7 @@ abstract class AppService {
   Future<HttpResponse> createWallet(@Path('user_id') String id, @Header('Authorization') String token, @Body() Map<String, dynamic> request);
 
   @GET("/wallet/{user_id}")
-  Future<HttpResponse<ListModelResponse>> getWalletByUserId(
+  Future<HttpResponse> getWalletByUserId(
       @Path('user_id') String userId, @Header('Authorization') String token);
 
   @GET("/wallet/get_user_by_wallet/{wallet_id}")

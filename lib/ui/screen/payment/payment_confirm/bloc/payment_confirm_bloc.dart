@@ -105,7 +105,7 @@ class PaymentConfirmBloc
                 amount,
                 state.message!,
               );
-              if (!await launchUrl(Uri.parse(response!))) {
+              if (!await launchUrl(Uri.parse(response!), mode: LaunchMode.externalApplication)) {
                 throw Exception('Could not launch $response');
               }
             } catch (exception) {
@@ -121,7 +121,7 @@ class PaymentConfirmBloc
                 amount,
                 state.message!,
               );
-              if (!await launchUrl(Uri.parse(response!))) {
+              if (!await launchUrl(Uri.parse(response!), mode: LaunchMode.externalApplication)) {
                 throw Exception('Could not launch $response');
               }
             } catch (exception) {
@@ -169,7 +169,7 @@ class PaymentConfirmBloc
                 amount,
                 state.message!,
               );
-              if (!await launchUrl(Uri.parse(response!))) {
+              if (!await launchUrl(Uri.parse(response!), mode: LaunchMode.externalApplication)) {
                 throw Exception('Could not launch $response');
               }
             } catch (exception) {

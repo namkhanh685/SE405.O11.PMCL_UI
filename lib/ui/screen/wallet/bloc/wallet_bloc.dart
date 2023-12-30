@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nfc_e_wallet/data/preferences.dart';
+import 'package:nfc_e_wallet/data/repositories/user_repo.dart';
 import 'package:nfc_e_wallet/data/repositories/wallet_repo.dart';
 import 'package:nfc_e_wallet/main.dart';
 
@@ -19,11 +20,16 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       var walletRepo = GetIt.instance.get<WalletRepo>();
       late final user;
       if (prefs.getString(Preferences.user) != null) {
-        user =jsonDecode(prefs.getString(Preferences.user)!);
+        user = jsonDecode(prefs.getString(Preferences.user)!);
       }
-      List<Wallet> listWallet = [];
-      for (var wallet in user["wallets"]) {
+      final listWalletResponse = await walletRepo.getListWallet(user["id"].toString());
+      user["wallets"] = listWalletResponse;
+      listWallet.clear();
+      for (var wallet in listWalletResponse) {
         listWallet.add(Wallet.fromJson(wallet));
+        if (wallet["type"] == "DefaultWallet") {
+          defaultWallet = Wallet.fromJson(wallet);
+        }
       }
       emit(WalletInitialState().copyWith(listWallet: listWallet));
     });

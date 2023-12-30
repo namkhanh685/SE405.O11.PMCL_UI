@@ -30,8 +30,7 @@ class TransactionRepo {
       String? otp;
 
       if (http.data['message'] == 'OTP SENT') {
-        otp = http.data['otp'];
-        print("OTP received: $otp");
+        otp = http.data['otp_data'];
       }
       return otp;
     });

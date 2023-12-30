@@ -22,9 +22,9 @@ class UserRepo {
   UserRepo(this._logger, this._sharedPreferences, this._appService,
       this._requestFactory, this._eventBus);
 
-  Future<User?> getUser(String id) async {
+  Future<User?> getFullUser(String id) async {
     return _appService
-        .getUser(id, (_sharedPreferences.getString('token') ?? ""))
+        .getFullUser(id, (_sharedPreferences.getString('token') ?? ""))
         .then((http) async {
       if (http.response.statusCode != 200) {
         return null;

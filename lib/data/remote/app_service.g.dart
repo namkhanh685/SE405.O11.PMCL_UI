@@ -173,7 +173,7 @@ class _AppService implements AppService {
   }
 
   @override
-  Future<HttpResponse<BaseResponse>> getUser(
+  Future<HttpResponse<BaseResponse>> getFullUser(
     String id,
     String token,
   ) async {
@@ -190,7 +190,7 @@ class _AppService implements AppService {
     )
             .compose(
               _dio.options,
-              '/user/${id}',
+              '/user/get_full_user/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -345,7 +345,7 @@ class _AppService implements AppService {
   }
 
   @override
-  Future<HttpResponse<ListModelResponse>> getWalletByUserId(
+  Future<HttpResponse<dynamic>> getWalletByUserId(
     String userId,
     String token,
   ) async {
@@ -354,8 +354,8 @@ class _AppService implements AppService {
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<ListModelResponse>>(Options(
+    final _result =
+        await _dio.fetch(_setStreamType<HttpResponse<dynamic>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -367,7 +367,7 @@ class _AppService implements AppService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ListModelResponse.fromJson(_result.data!);
+    final value = _result.data;
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

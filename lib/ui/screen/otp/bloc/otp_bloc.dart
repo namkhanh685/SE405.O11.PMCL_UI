@@ -17,7 +17,6 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
       emit(OtpLoading());
       final authenticator = GetIt.instance.get<Authenticator>();
       try {
-        print(event.otp);
         final data =
             await authenticator.verifyOtp(event.phoneNumber, event.otp);
         if (data != null) {
