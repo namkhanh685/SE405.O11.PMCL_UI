@@ -61,7 +61,7 @@ class NotificationManager {
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestPermission();
+        ?.requestNotificationsPermission();
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }

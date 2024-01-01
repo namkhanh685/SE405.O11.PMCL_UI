@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nfc_e_wallet/data/model/user.dart';
 import 'package:nfc_e_wallet/data/model/wallet.dart';
@@ -18,6 +19,9 @@ part 'payment_confirm_state.dart';
 
 class PaymentConfirmBloc
     extends Bloc<PaymentConfirmEvent, PaymentConfirmState> {
+
+  InAppWebViewController? webViewController;
+  
   PaymentConfirmBloc() : super(PaymentConfirmState()) {
     on<InitializePaymentEvent>((event, emit) async {
       if (event.type == "TRANSFER") {
@@ -105,8 +109,8 @@ class PaymentConfirmBloc
                 amount,
                 state.message!,
               );
-              if (!await launchUrl(Uri.parse(response!), mode: LaunchMode.externalApplication)) {
-                throw Exception('Could not launch $response');
+              if(response!=null) {
+                emit(state.copyWith(isSuccess: true, url: response));
               }
             } catch (exception) {
               if (exception is DioException) {
@@ -121,8 +125,8 @@ class PaymentConfirmBloc
                 amount,
                 state.message!,
               );
-              if (!await launchUrl(Uri.parse(response!), mode: LaunchMode.externalApplication)) {
-                throw Exception('Could not launch $response');
+              if(response!=null) {
+                emit(state.copyWith(isSuccess: true, url: response));
               }
             } catch (exception) {
               if (exception is DioException) {
@@ -169,8 +173,8 @@ class PaymentConfirmBloc
                 amount,
                 state.message!,
               );
-              if (!await launchUrl(Uri.parse(response!), mode: LaunchMode.externalApplication)) {
-                throw Exception('Could not launch $response');
+              if(response!=null) {
+                emit(state.copyWith(isSuccess: true, url: response));
               }
             } catch (exception) {
               if (exception is DioException) {

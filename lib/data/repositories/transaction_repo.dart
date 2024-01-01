@@ -110,5 +110,15 @@ class TransactionRepo {
     });
   }
 
-
+  Future<Map<String,dynamic>?> getSingleTransaction(String id) async {
+    return _appService
+        .getSingleTransaction(
+            id, (_sharedPreferences.getString('token') ?? ""))
+        .then((http) async {
+      if (http.response.statusCode != 200) {
+        return null;
+      }
+      return http.data;
+    });
+  }
 }

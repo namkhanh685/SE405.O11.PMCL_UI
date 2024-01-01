@@ -61,8 +61,12 @@ class PaymentSuccessScreen extends StatelessWidget {
             final type = state.type;
             if (type == "DEPOSIT") {
               title = "Nạp tiền vào ví";
+              var sender = "";
+              if(state.sender.toString() == "2") {
+                sender = "VNPay";
+              }
               textLine = [
-                ['Từ', state.sender!],
+                ['Từ', sender],
                 ['Người nhận', user.full_name],
                 ['Số điện thoại', user.phone_number],
                 ['Phí giao dịch', 'Miễn phí'],

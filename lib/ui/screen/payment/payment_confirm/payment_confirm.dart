@@ -66,7 +66,7 @@ class _paymentConfirmPage extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  OTPScreen(phoneNumber: user.phone_number),
+                  OTPScreen(phoneNumber: user.phone_number, url: state.url,),
             ),
           );
         }

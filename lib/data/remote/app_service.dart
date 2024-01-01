@@ -48,6 +48,9 @@ abstract class AppService {
   @GET("/transaction/{user_id}")
   Future<HttpResponse> getListTransaction(@Path('user_id') String id, @Header('Authorization') String token);
 
+  @GET("/transaction/get_transaction/{id}")
+  Future<HttpResponse> getSingleTransaction(@Path('id') String id, @Header('Authorization') String token);
+
   @POST("/wallet/{user_id}")
   Future<HttpResponse> createWallet(@Path('user_id') String id, @Header('Authorization') String token, @Body() Map<String, dynamic> request);
 
