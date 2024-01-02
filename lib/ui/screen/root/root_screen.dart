@@ -38,7 +38,6 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
           permanentApduResponses: true,
           listenOnlyConfiguredPorts: false,
         );
-        initNFC();
       } else {
         SmartDialog.show(builder: (context) {
           return Container(
@@ -72,15 +71,6 @@ class _RootAppState extends State<RootApp> with TickerProviderStateMixin {
         defaultWallet = Wallet.fromJson(wallet);
       }
     }
-  }
-
-  void initNFC() async {
-    //INIT NFC
-    const port = 0;
-    // change data to transmit here
-
-    final data = utf8.encode(defaultWallet.id.toString());
-    await NfcHce.addApduResponse(port, data);
   }
 
   @override

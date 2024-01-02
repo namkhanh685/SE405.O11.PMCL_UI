@@ -12,7 +12,6 @@ import 'package:nfc_e_wallet/data/repositories/transaction_repo.dart';
 import 'package:nfc_e_wallet/data/repositories/user_repo.dart';
 import 'package:nfc_e_wallet/main.dart';
 import 'package:nfc_e_wallet/utils/notification_manager.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'payment_confirm_event.dart';
 part 'payment_confirm_state.dart';

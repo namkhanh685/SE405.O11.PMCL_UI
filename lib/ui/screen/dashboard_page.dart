@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nfc_e_wallet/main.dart';
+import 'package:nfc_e_wallet/ui/screen/nfc/nfc_sreen.dart';
 import 'package:nfc_e_wallet/ui/widgets/shortcut_widget/shortcut_icon.dart';
 import '../../utils/list_utils.dart';
 import '../../utils/widget_utils.dart';
@@ -34,8 +35,7 @@ class _Dashboard extends State<Dashboard> with TickerProviderStateMixin {
         ),
         actions: [
           IconButton(
-              onPressed: () => 
-              notAvailable(),
+              onPressed: () => notAvailable(),
               // AppNav.push(
               //     context,
               //     MaterialPageRoute(
@@ -67,12 +67,12 @@ class _Dashboard extends State<Dashboard> with TickerProviderStateMixin {
                           Text(
                             ".",
                             style:
-                            TextStyle(color: Colors.black54, fontSize: 25),
+                                TextStyle(color: Colors.black54, fontSize: 25),
                           ),
                           Text(
                             ".",
                             style:
-                            TextStyle(color: Colors.black54, fontSize: 25),
+                                TextStyle(color: Colors.black54, fontSize: 25),
                           ),
                         ],
                       ),
@@ -101,17 +101,24 @@ class _Dashboard extends State<Dashboard> with TickerProviderStateMixin {
                           final labelWidth = iconLabelWidth * 1.5;
 
                           List<Widget> shortcuts =
-                          WidgetUtils.rowEvenlyWidthDivideWrap(
-                              width, labelWidth, 4, [
+                              WidgetUtils.rowEvenlyWidthDivideWrap(
+                                      width, labelWidth, 4, [
                             ShortcutIcon(
                                 Icon(
                                   Icons.phone_android,
                                   color: primary,
                                 ),
-                                'Nạp tiền ĐT',
+                                'NFC',
                                 iconLabelWidth,
                                 labelWidth,
-                                onTap: notAvailable),
+                                onTap: () => {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const NFCScreen()),
+                                      )
+                                    }),
                             ShortcutIcon(
                                 Icon(
                                   Icons.receipt_long,
@@ -131,59 +138,132 @@ class _Dashboard extends State<Dashboard> with TickerProviderStateMixin {
                                 labelWidth,
                                 onTap: notAvailable),
                             ShortcutIcon(
-                                Icon(
-                                  FontAwesomeIcons.piggyBank,
-                                  color: Colors.pink,
-                                ),
-                                'Tài khoản tích lũy',
-                                iconLabelWidth,
-                                labelWidth,
-                                onTap: notAvailable,),
+                              Icon(
+                                FontAwesomeIcons.piggyBank,
+                                color: Colors.pink,
+                              ),
+                              'Tài khoản tích lũy',
+                              iconLabelWidth,
+                              labelWidth,
+                              onTap: notAvailable,
+                            ),
                             ShortcutIcon(
-                                Icon(
-                                  FontAwesomeIcons.simCard,
-                                  color: primary,
-                                ),
-                                'Nạp 3G/4G',
-                                iconLabelWidth,
-                                labelWidth,
-                                onTap: notAvailable,),
+                              Icon(
+                                FontAwesomeIcons.simCard,
+                                color: primary,
+                              ),
+                              'Nạp 3G/4G',
+                              iconLabelWidth,
+                              labelWidth,
+                              onTap: notAvailable,
+                            ),
                             ShortcutIcon(
-                                Image.asset(
-                                    'assets/images/icons/vetc-logo.png'),
-                                'VETC',
-                                iconLabelWidth,
-                                labelWidth,
-                                onTap: notAvailable,),
+                              Image.asset('assets/images/icons/vetc-logo.png'),
+                              'VETC',
+                              iconLabelWidth,
+                              labelWidth,
+                              onTap: notAvailable,
+                            ),
                             ShortcutIcon(
-                                Icon(
-                                  FontAwesomeIcons.ticket,
-                                  color: primary,
-                                ),
-                                'Đặt vé phim',
-                                iconLabelWidth,
-                                labelWidth,
-                                onTap: notAvailable,),
+                              Icon(
+                                FontAwesomeIcons.ticket,
+                                color: primary,
+                              ),
+                              'Đặt vé phim',
+                              iconLabelWidth,
+                              labelWidth,
+                              onTap: notAvailable,
+                            ),
                             ShortcutIcon(
-                                Icon(
-                                  Icons.widgets,
-                                  color: primary,
-                                ),
-                                'Tất cả',
-                                iconLabelWidth,
-                                labelWidth,
-                                onTap: notAvailable,),
+                              Icon(
+                                Icons.widgets,
+                                color: primary,
+                              ),
+                              'Tất cả',
+                              iconLabelWidth,
+                              labelWidth,
+                              onTap: notAvailable,
+                            ),
                           ])
-                              .map((e) => Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: e,
-                          ))
-                              .toList();
+                                  .map((e) => Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: e,
+                                      ))
+                                  .toList();
 
                           return Column(
                               mainAxisSize: MainAxisSize.max,
                               children: ListUtils.join(shortcuts,
+                                  (i) => const SizedBox(height: 10)));
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      LayoutBuilder(
+                        builder: (context, constraints) {
+                          final width = constraints.maxWidth;
+                          final iconLabelWidth = 40.0.w;
+                          final labelWidth = iconLabelWidth * 1.5;
+
+                          List<Widget> shortcuts =
+                              WidgetUtils.rowEvenlyWidthDivideWrap(
+                                      width, labelWidth, 4, [
+                            ShortcutIcon(
+                              Icon(Icons.abc_outlined),
+                              'Mua vé máy bay',
+                              iconLabelWidth,
+                              labelWidth,
+                              onTap: notAvailable,
+                            ),
+                            ShortcutIcon(
+                              Icon(Icons.access_alarm_rounded),
+                              'KFC',
+                              iconLabelWidth,
+                              labelWidth,
+                              onTap: notAvailable,
+                            ),
+                            ShortcutIcon(
+                              Icon(Icons.add_box_rounded),
+                              'Jolibee',
+                              iconLabelWidth,
+                              labelWidth,
+                              onTap: notAvailable,
+                            ),
+                            ShortcutIcon(
+                              Icon(Icons.add_circle),
+                              'Uniqlo',
+                              iconLabelWidth,
+                              labelWidth,
+                              onTap: notAvailable,
+                            ),
+                          ])
+                                  .map((e) => Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: e,
+                                      ))
+                                  .toList();
+
+                          return Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "Đề xuất:",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: primary,
+                                          ),
+                                        )),
+                                    const SizedBox(
+                                      height: 20,
+                                    )
+                                  ] +
+                                  ListUtils.join(shortcuts,
                                       (i) => const SizedBox(height: 10)));
                         },
                       ),
@@ -197,61 +277,8 @@ class _Dashboard extends State<Dashboard> with TickerProviderStateMixin {
                           final labelWidth = iconLabelWidth * 1.5;
 
                           List<Widget> shortcuts =
-                          WidgetUtils.rowEvenlyWidthDivideWrap(
-                              width, labelWidth, 4, [
-                            ShortcutIcon(Icon(Icons.abc_outlined),
-                                'Mua vé máy bay', iconLabelWidth, labelWidth,
-                                onTap: notAvailable,),
-                            ShortcutIcon(Icon(Icons.access_alarm_rounded),
-                                'KFC', iconLabelWidth, labelWidth,
-                                onTap: notAvailable,),
-                            ShortcutIcon(Icon(Icons.add_box_rounded),
-                                'Jolibee', iconLabelWidth, labelWidth,
-                                onTap: notAvailable,),
-                            ShortcutIcon(Icon(Icons.add_circle), 'Uniqlo',
-                                iconLabelWidth, labelWidth,
-                                onTap: notAvailable,),
-                          ])
-                              .map((e) => Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: e,
-                          ))
-                              .toList();
-
-                          return Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: <Widget>[
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "Đề xuất:",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: primary,
-                                      ),
-                                    )),
-                                const SizedBox(
-                                  height: 20,
-                                )
-                              ] +
-                                  ListUtils.join(shortcuts,
-                                          (i) => const SizedBox(height: 10)));
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      LayoutBuilder(
-                        builder: (context, constraints) {
-                          final width = constraints.maxWidth;
-                          final iconLabelWidth = 40.0.w;
-                          final labelWidth = iconLabelWidth * 1.5;
-
-                          List<Widget> shortcuts =
-                          WidgetUtils.rowEvenlyWidthDivideWrap(
-                              width, labelWidth, 4, [
+                              WidgetUtils.rowEvenlyWidthDivideWrap(
+                                      width, labelWidth, 4, [
                             ShortcutIcon(Icon(Icons.abc_outlined),
                                 'Mua vé máy bay', iconLabelWidth, labelWidth,
                                 onTap: notAvailable),
@@ -264,32 +291,32 @@ class _Dashboard extends State<Dashboard> with TickerProviderStateMixin {
                                 iconLabelWidth, labelWidth,
                                 onTap: notAvailable),
                           ])
-                              .map((e) => Row(
-                            crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                            children: e,
-                          ))
-                              .toList();
+                                  .map((e) => Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: e,
+                                      ))
+                                  .toList();
 
                           return Column(
                               mainAxisSize: MainAxisSize.max,
                               children: <Widget>[
-                                Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "Có thể bạn quan tâm:",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: primary,
-                                      ),
-                                    )),
-                                const SizedBox(
-                                  height: 20,
-                                )
-                              ] +
+                                    Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "Có thể bạn quan tâm:",
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold,
+                                            color: primary,
+                                          ),
+                                        )),
+                                    const SizedBox(
+                                      height: 20,
+                                    )
+                                  ] +
                                   ListUtils.join(shortcuts,
-                                          (i) => const SizedBox(height: 10)));
+                                      (i) => const SizedBox(height: 10)));
                         },
                       )
                     ],
@@ -326,41 +353,41 @@ class _Dashboard extends State<Dashboard> with TickerProviderStateMixin {
             children: [
               Expanded(
                   child: TabBarView(
-                    controller: _adsTabController,
-                    children: [
-                      Container(
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: AssetImage(
-                                    "assets/images/icons/cantfind.png"))),
-                      ),
-                      Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.red,
-                            image: DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: AssetImage(
-                                    "assets/images/icons/cantfind.png"))),
-                      ),
-                      Container(
-                        decoration: const BoxDecoration(
-                            color: Colors.greenAccent,
-                            image: DecorationImage(
-                                fit: BoxFit.fitHeight,
-                                image: AssetImage(
-                                    "assets/images/icons/cantfind.png"))),
-                      )
-                    ],
-                  )),
+                controller: _adsTabController,
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.fitHeight,
+                            image: AssetImage(
+                                "assets/images/icons/cantfind.png"))),
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.red,
+                        image: DecorationImage(
+                            fit: BoxFit.fitHeight,
+                            image: AssetImage(
+                                "assets/images/icons/cantfind.png"))),
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.greenAccent,
+                        image: DecorationImage(
+                            fit: BoxFit.fitHeight,
+                            image: AssetImage(
+                                "assets/images/icons/cantfind.png"))),
+                  )
+                ],
+              )),
               Text(
                 "Đây là quảng cáo",
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width > 900
                       ? 15
                       : MediaQuery.of(context).size.width > 350
-                      ? 15
-                      : 13,
+                          ? 15
+                          : 13,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -370,21 +397,21 @@ class _Dashboard extends State<Dashboard> with TickerProviderStateMixin {
       ),
     );
   }
-  void notAvailable(){
+
+  void notAvailable() {
     SmartDialog.show(builder: (context) {
-          return Container(
-            height: 100,
-            width: 250,
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            alignment: Alignment.center,
-            child: const Text(
-                'Chức năng hiện tại đang phát triển. Xin thông cảm!',
-                style: TextStyle(color: Colors.white)),
-          );
-        });
+      return Container(
+        height: 100,
+        width: 250,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        alignment: Alignment.center,
+        child: const Text('Chức năng hiện tại đang phát triển. Xin thông cảm!',
+            style: TextStyle(color: Colors.white)),
+      );
+    });
   }
 }
