@@ -6,6 +6,7 @@ import 'package:nfc_e_wallet/data/model/transaction.dart';
 import 'package:nfc_e_wallet/data/repositories/transaction_repo.dart';
 import 'package:nfc_e_wallet/l10n/l10n.dart';
 import 'package:nfc_e_wallet/ui/screen/otp/bloc/otp_bloc.dart';
+import 'package:nfc_e_wallet/ui/screen/payment/payment_failed/payment_failed_screen.dart';
 import 'package:nfc_e_wallet/ui/screen/payment/payment_success/payment_success_screen.dart';
 import 'package:nfc_e_wallet/ui/screen/root/root_screen.dart';
 import 'package:nfc_e_wallet/utils/toast_helper.dart';
@@ -13,20 +14,22 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:rxdart/rxdart.dart';
 
 class OTPScreen extends StatefulWidget {
-  const OTPScreen({super.key, required this.phoneNumber, this.url});
+  const OTPScreen({super.key, required this.phoneNumber, this.url, this.isPaypal});
   final String phoneNumber;
   final String? url;
+  final bool? isPaypal;
   @override
   OTPScreenState createState() =>
-      OTPScreenState(phoneNumber: phoneNumber, url: url);
+      OTPScreenState(phoneNumber: phoneNumber, url: url, isPaypal: isPaypal);
 }
 
 class OTPScreenState extends State<OTPScreen> {
   final GlobalKey webViewKey = GlobalKey();
   InAppWebViewController? webViewController;
   final String phoneNumber;
+  final bool? isPaypal;
   String? url;
-  OTPScreenState({Key? key, required this.phoneNumber, this.url});
+  OTPScreenState({Key? key, required this.phoneNumber, this.url, this.isPaypal});
 
   final _otpBloc = OtpBloc();
   final _otpController = TextEditingController();
@@ -65,7 +68,7 @@ class OTPScreenState extends State<OTPScreen> {
                   status: ToastStatus.failure);
             }
           },
-          child: url == null ? buildOTPScreen() : buildWebView()),
+          child: url == null || url == "" ? buildOTPScreen() : buildWebView()),
     );
   }
 
@@ -135,7 +138,7 @@ class OTPScreenState extends State<OTPScreen> {
                           onPressed: isValidLength
                               ? () {
                                   context.read<OtpBloc>().add(SubmitOtpEvent(
-                                      _otpController.text, phoneNumber));
+                                      _otpController.text, phoneNumber, isPaypal));
                                 }
                               : null,
                           style: ElevatedButton.styleFrom(
@@ -193,7 +196,6 @@ class OTPScreenState extends State<OTPScreen> {
                 (response) {
                   if (response != null) {
                     final transaction = Transaction.fromJson(response);
-                    print(transaction.id);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -203,6 +205,12 @@ class OTPScreenState extends State<OTPScreen> {
                     );
                   }
                 },
+              );
+            } else if (url.queryParameters["status"] == "failed") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PaymentFailedScreen()),
               );
             }
           },

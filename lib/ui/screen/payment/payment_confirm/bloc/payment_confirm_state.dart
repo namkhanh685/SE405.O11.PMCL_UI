@@ -9,6 +9,7 @@ class PaymentConfirmState {
   final bool? isSuccess;
   final String? bank;
   final String? url;
+  final bool? isPaypal;
   PaymentConfirmState(
       {this.amount = "",
       this.receiverName = "",
@@ -17,7 +18,8 @@ class PaymentConfirmState {
       this.message = "",
       this.bank="",
       this.isSuccess,
-      this.url=""});
+      this.url="",
+      this.isPaypal});
   PaymentConfirmState copyWith(
       {String? amount,
       String? receiverName,
@@ -26,7 +28,8 @@ class PaymentConfirmState {
       String? receiverWalletId,
       bool? isSuccess,
       String? bank,
-      String? url}) {
+      String? url,
+      bool? isPaypal}) {
     return PaymentConfirmState(
         amount: amount ?? this.amount,
         receiverName: receiverName ?? this.receiverName,
@@ -35,7 +38,8 @@ class PaymentConfirmState {
         receiverWalletId: receiverWalletId ?? this.receiverWalletId,
         isSuccess: isSuccess ?? this.isSuccess,
         bank: bank ?? this.bank,
-        url: url ?? this.url,);
+        url: url ?? this.url,
+        isPaypal: isPaypal ?? this.isPaypal);
   }
 }
 

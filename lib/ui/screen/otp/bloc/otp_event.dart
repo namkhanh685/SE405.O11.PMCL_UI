@@ -5,7 +5,8 @@ abstract class OtpEvent {}
 class SubmitOtpEvent extends OtpEvent {
   final String otp;
   final String phoneNumber;
-  SubmitOtpEvent(this.otp, this.phoneNumber);
+  final bool? isPaypal;
+  SubmitOtpEvent(this.otp, this.phoneNumber, this.isPaypal);
 }
 
 class ResendOtpEvent extends OtpEvent {}

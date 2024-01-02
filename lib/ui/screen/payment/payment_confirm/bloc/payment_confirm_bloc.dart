@@ -18,9 +18,8 @@ part 'payment_confirm_state.dart';
 
 class PaymentConfirmBloc
     extends Bloc<PaymentConfirmEvent, PaymentConfirmState> {
-
   InAppWebViewController? webViewController;
-  
+
   PaymentConfirmBloc() : super(PaymentConfirmState()) {
     on<InitializePaymentEvent>((event, emit) async {
       if (event.type == "TRANSFER") {
@@ -108,7 +107,7 @@ class PaymentConfirmBloc
                 amount,
                 state.message!,
               );
-              if(response!=null) {
+              if (response != null) {
                 emit(state.copyWith(isSuccess: true, url: response));
               }
             } catch (exception) {
@@ -124,7 +123,7 @@ class PaymentConfirmBloc
                 amount,
                 state.message!,
               );
-              if(response!=null) {
+              if (response != null) {
                 emit(state.copyWith(isSuccess: true, url: response));
               }
             } catch (exception) {
@@ -164,50 +163,28 @@ class PaymentConfirmBloc
         if (amount.contains(RegExp(r'(\.|[đ])'))) {
           amount = amount.replaceAll(RegExp(r'(\.|[đ])'), '');
         }
+        try {
+          String? otp = await transactionRepo.createTransaction(
+              defaultWallet.id.toString(),
+              state.bank!,
+              amount,
+              state.message!,
+              event.type);
+          if (otp != null) {
+            if(state.bank == "PAYPAL") emit(state.copyWith(isPaypal: true));
+            emit(state.copyWith(isSuccess: true));
 
-        switch (state.bank) {
-          case "PAYPAL":
-            try {
-              String? response = await transactionRepo.createPaypalWithdrawTransaction(
-                amount,
-                state.message!,
-              );
-              if(response!=null) {
-                emit(state.copyWith(isSuccess: true, url: response));
-              }
-            } catch (exception) {
-              if (exception is DioException) {
-                print(exception.response!.data);
-              }
-              print("Get user data failed due to exception: $exception");
-            }
-            break;
-          default:
-            try {
-              String? otp = await transactionRepo.createTransaction(
-                  defaultWallet.id.toString(),
-                  state.bank!,
-                  amount,
-                  state.message!,
-                  event.type);
-              if (otp != null) {
-                print("Create withdraw transaction success. OTP: $otp");
-
-                emit(state.copyWith(isSuccess: true));
-
-                await NotificationManager.showNotification(
-                  id: 0,
-                  title: 'OTP Received',
-                  body: 'Your OTP is $otp',
-                );
-              }
-            } catch (exception) {
-              if (exception is DioException) {
-                print(exception.response!.data);
-              }
-              print("Get user data failed due to exception: $exception");
-            }
-            break;
+            await NotificationManager.showNotification(
+              id: 0,
+              title: 'OTP Received',
+              body: 'Your OTP is $otp',
+            );
+          }
+        } catch (exception) {
+          if (exception is DioException) {
+            print(exception.response!.data);
+          }
+          print("Get user data failed due to exception: $exception");
         }
       }
     });

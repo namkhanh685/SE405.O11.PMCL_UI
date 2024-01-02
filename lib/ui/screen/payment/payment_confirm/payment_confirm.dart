@@ -1,19 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:nfc_e_wallet/data/preferences.dart';
 import 'package:nfc_e_wallet/main.dart';
 import 'package:nfc_e_wallet/ui/screen/otp/otp_screen.dart';
 import 'package:nfc_e_wallet/ui/screen/payment/payment_confirm/bloc/payment_confirm_bloc.dart';
 
 import '../../../style/color.dart';
 import '../../../widgets/dashed_line.dart';
-import '../payment_success/payment_success_screen.dart';
 
 class PaymentConfirm extends StatelessWidget {
   final String amount;
@@ -23,13 +17,13 @@ class PaymentConfirm extends StatelessWidget {
   final String type;
 
   const PaymentConfirm({
-    Key? key,
+    super.key,
     required this.amount,
     required this.type,
     required this.receiverPhoneNumber,
     this.message,
     this.bank,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +36,7 @@ class PaymentConfirm extends StatelessWidget {
             phoneNumber: receiverPhoneNumber,
             message: message)),
       child: Scaffold(
-        body: _paymentConfirmPage(
+        body: PaymentConfirmPage(
           type: type,
         ),
       ),
@@ -50,23 +44,25 @@ class PaymentConfirm extends StatelessWidget {
   }
 }
 
-class _paymentConfirmPage extends StatelessWidget {
+class PaymentConfirmPage extends StatelessWidget {
   final String type;
-  const _paymentConfirmPage({Key? key, required this.type}) : super(key: key);
+  const PaymentConfirmPage({super.key, required this.type});
 
   @override
   Widget build(BuildContext context) {
     String title = "";
     List<List<String>> textLine = List.empty(growable: true);
-
     return BlocListener<PaymentConfirmBloc, PaymentConfirmState>(
       listener: (context, state) {
         if (state.isSuccess == true) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  OTPScreen(phoneNumber: user.phone_number, url: state.url,),
+              builder: (context) => OTPScreen(
+                phoneNumber: user.phone_number,
+                url: state.url,
+                isPaypal: state.isPaypal,
+              ),
             ),
           );
         }
@@ -104,7 +100,6 @@ class _paymentConfirmPage extends StatelessWidget {
             ['Phí giao dịch', 'Miễn phí'],
           ];
         }
-
 
         return Column(
           children: [
@@ -179,7 +174,7 @@ class _paymentConfirmPage extends StatelessWidget {
                                     SizedBox(
                                       height: 10.h,
                                     ),
-                                    DashedLine(),
+                                    const DashedLine(),
                                     SizedBox(
                                       height: 10.h,
                                     ),
@@ -212,7 +207,7 @@ class _paymentConfirmPage extends StatelessWidget {
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Icon(FontAwesomeIcons.wallet),
+                                    const Icon(FontAwesomeIcons.wallet),
                                     SizedBox(
                                       width: 10.w,
                                     ),
@@ -222,8 +217,7 @@ class _paymentConfirmPage extends StatelessWidget {
                                       children: [
                                         Text('Nguồn tiền thanh toán',
                                             style: TextStyle(fontSize: 15.sp)),
-                                        Text(
-                                            'Số dư: ${defaultWallet.balance}đ',
+                                        Text('Số dư: ${defaultWallet.balance}đ',
                                             style: TextStyle(fontSize: 12.sp))
                                       ],
                                     )
@@ -247,7 +241,7 @@ class _paymentConfirmPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                   ),
                   child: Column(
@@ -274,13 +268,13 @@ class _paymentConfirmPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.shield,
                             color: green,
                           ),

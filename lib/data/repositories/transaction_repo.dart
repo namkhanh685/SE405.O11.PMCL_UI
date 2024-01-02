@@ -50,7 +50,7 @@ class TransactionRepo {
       String? otp;
 
       if (http.data['message'] == 'OTP SENT') {
-        otp = http.data['otp'];
+        otp = http.data['otp_data'];
       }
       return otp;
     });
@@ -96,7 +96,7 @@ class TransactionRepo {
     });
   }
 
-  Future<String?> createPaypalWithdrawTransaction(
+  Future<Map<String, dynamic>?> createPaypalWithdrawTransaction(
       String otp, String phoneNumber) async {
     return _appService
         .createPaypalWithdrawTransaction(
@@ -106,7 +106,7 @@ class TransactionRepo {
       if (http.response.statusCode != 200) {
         return null;
       }
-      return http.data["url"];
+      return http.data;
     });
   }
 

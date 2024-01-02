@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nfc_e_wallet/data/preferences.dart';
 import 'package:nfc_e_wallet/data/repositories/authenticator.dart';
+import 'package:nfc_e_wallet/data/repositories/transaction_repo.dart';
 import 'package:nfc_e_wallet/main.dart';
 
 part 'otp_event.dart';
@@ -16,24 +17,34 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     on<SubmitOtpEvent>((event, emit) async {
       emit(OtpLoading());
       final authenticator = GetIt.instance.get<Authenticator>();
+      final transactionRepo = GetIt.instance.get<TransactionRepo>();
       try {
-        final data =
-            await authenticator.verifyOtp(event.phoneNumber, event.otp);
+        var data;
+        if (event.isPaypal != null && event.isPaypal!) {
+          data = await transactionRepo.createPaypalWithdrawTransaction(
+              event.otp, event.phoneNumber);
+        } else {
+          data = await authenticator.verifyOtp(event.phoneNumber, event.otp);
+        }
         if (data != null) {
           if (data["type"] == "REGISTER") {
             await prefs.setString(Preferences.user, jsonEncode(data["user"]));
-            await prefs.setString(Preferences.token, data["accessToken"]["token"] as String);
+            await prefs.setString(
+                Preferences.token, data["accessToken"]["token"] as String);
             emit(OtpSuccess(type: "REGISTER", data: data));
           } else if (data["type"] == "TRANSFER_TRANSACTION") {
-            emit(OtpSuccess(type: "TRANSFER_TRANSACTION", data: data["from_Transaction"]));
+            emit(OtpSuccess(
+                type: "TRANSFER_TRANSACTION", data: data["from_Transaction"]));
           } else if (data["type"] == "TRANSACTION") {
+            emit(OtpSuccess(type: "TRANSACTION", data: data["transaction"]));
+          } else if (data["message"] == "Success" && data["wallet"]["id"] != null) {
             emit(OtpSuccess(type: "TRANSACTION", data: data["transaction"]));
           }
         } else {
           emit(OtpFailure("Invalid OTP"));
         }
       } catch (error) {
-        if(error is DioException){
+        if (error is DioException) {
           print(error.message);
         }
         emit(OtpFailure(error.toString()));

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -12,8 +10,7 @@ import '../../app_navigator.dart';
 class PaymentSuccessScreen extends StatelessWidget {
   final Transaction transaction;
 
-  const PaymentSuccessScreen({Key? key, required this.transaction})
-      : super(key: key);
+  const PaymentSuccessScreen({super.key, required this.transaction});
 
   List<Widget> buildLines(List<List<String>> lines, BuildContext context) {
     return lines.map((line) {
@@ -60,20 +57,15 @@ class PaymentSuccessScreen extends StatelessWidget {
             amount = state.amount;
             final type = state.type;
             if (type == "DEPOSIT") {
-              title = "Nạp tiền vào ví";
-              var sender = "";
-              if(state.sender.toString() == "2") {
-                sender = "VNPay";
-              }
               textLine = [
-                ['Từ', sender],
+                ['Từ', state.sender],
                 ['Người nhận', user.full_name],
                 ['Số điện thoại', user.phone_number],
                 ['Phí giao dịch', 'Miễn phí'],
                 ['Thời gian', state.paymentTime],
               ];
             } else if (type == "WITHDRAW") {
-              title = "Rút tiền về ví ${state.recipient}";
+              title = "Rút tiền thành công";
               textLine = [
                 ['Người nhận', user.full_name],
                 ['Số điện thoại', user.phone_number],
@@ -88,16 +80,14 @@ class PaymentSuccessScreen extends StatelessWidget {
                 ['Thời gian', state.paymentTime],
                 ['Phí giao dịch', 'Miễn phí'],
               ];
-            }
-            else if (type == "PAYMENT") {
+            } else if (type == "PAYMENT") {
               title = "Thanh toán đơn hàng ở ${state.recipient}";
               textLine = [
                 ['SĐT', state.phoneNumber],
                 ['Thời gian', state.paymentTime],
                 ['Phí giao dịch', 'Miễn phí'],
               ];
-            }
-            else if (type == "RECEIVE") {
+            } else if (type == "RECEIVE") {
               title = "Nhận tiền từ ${state.sender}";
               textLine = [
                 ['Người gửi', state.sender],
@@ -115,22 +105,21 @@ class PaymentSuccessScreen extends StatelessWidget {
                 child: Container(
                     decoration: BoxDecoration(
                         color: primary,
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(50),
                             bottomRight: Radius.circular(50)))),
               ),
               Column(children: [
-                Expanded(
+                const Expanded(
                     flex: 86,
-                    child: Container(
-                        child: Center(
+                    child: Center(
                       child: Text('Kết quả giao dịch',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
                           )),
-                    ))),
+                    )),
                 Expanded(
                     flex: 438,
                     child: Padding(
@@ -178,8 +167,8 @@ class PaymentSuccessScreen extends StatelessWidget {
                                 child: Padding(
                                   padding:
                                       MediaQuery.of(context).size.width > 350
-                                          ? EdgeInsets.all(10)
-                                          : EdgeInsets.all(5),
+                                          ? const EdgeInsets.all(10)
+                                          : const EdgeInsets.all(5),
                                   child: Text(
                                     title,
                                     style: TextStyle(
@@ -190,7 +179,7 @@ class PaymentSuccessScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Padding(
@@ -228,15 +217,15 @@ class PaymentSuccessScreen extends StatelessWidget {
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Icon(Icons.info_outline),
+                                          const Icon(Icons.info_outline),
                                           Padding(
                                             padding: MediaQuery.of(context)
                                                         .size
                                                         .width >
                                                     350
-                                                ? EdgeInsets.only(
+                                                ? const EdgeInsets.only(
                                                     bottom: 5.0, left: 5)
-                                                : EdgeInsets.only(
+                                                : const EdgeInsets.only(
                                                     bottom: 0, left: 5),
                                             child: Text(
                                               'Chi tiết giao dịch',
@@ -264,8 +253,9 @@ class PaymentSuccessScreen extends StatelessWidget {
                                                         .size
                                                         .width >
                                                     350
-                                                ? EdgeInsets.only(bottom: 5.0)
-                                                : EdgeInsets.only(
+                                                ? const EdgeInsets.only(
+                                                    bottom: 5.0)
+                                                : const EdgeInsets.only(
                                                     bottom: 0,
                                                   ),
                                             child: Text(
@@ -281,7 +271,8 @@ class PaymentSuccessScreen extends StatelessWidget {
                                               )),
                                             ),
                                           ),
-                                          Icon(Icons.chevron_right_rounded),
+                                          const Icon(
+                                              Icons.chevron_right_rounded),
                                         ],
                                       ),
                                     ),
@@ -305,7 +296,7 @@ class PaymentSuccessScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                               color: primary,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(25))),
+                                  const BorderRadius.all(Radius.circular(25))),
                           child: Center(
                             child: Text('Đóng',
                                 style: TextStyle(
@@ -323,8 +314,9 @@ class PaymentSuccessScreen extends StatelessWidget {
           },
         ));
   }
+
   String formatCurrency(String amount) {
-    if(amount.isEmpty) return "";
+    if (amount.isEmpty) return "";
     final currencyFormat = NumberFormat("#,##0.##");
     return currencyFormat.format(int.parse(amount));
   }

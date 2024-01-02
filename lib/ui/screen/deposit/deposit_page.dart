@@ -171,11 +171,11 @@ class _DepositPage extends State<DepositPage> {
                                               top: 15,
                                               bottom: 5),
                                           child: Container(
-                                              padding: EdgeInsets.all(10),
+                                              padding: const EdgeInsets.all(10),
                                               decoration: BoxDecoration(
                                                   color: white,
                                                   borderRadius:
-                                                      BorderRadius.all(
+                                                      const BorderRadius.all(
                                                           Radius.circular(10)),
                                                   boxShadow: [
                                                     BoxShadow(
@@ -230,7 +230,7 @@ class _DepositPage extends State<DepositPage> {
                                                     borderSide: BorderSide(
                                                         color: primary),
                                                     borderRadius:
-                                                        BorderRadius.all(
+                                                        const BorderRadius.all(
                                                             Radius.circular(
                                                                 10))),
                                               ),
@@ -261,8 +261,8 @@ class _DepositPage extends State<DepositPage> {
                                             child: TextButton(
                                               onPressed: () => amountController
                                                   .text = "100.000",
-                                              child: Text("100.000đ",
-                                                  style: const TextStyle(
+                                              child: const Text("100.000đ",
+                                                  style: TextStyle(
                                                       fontSize: 13)),
                                             ),
                                           ),
@@ -285,8 +285,8 @@ class _DepositPage extends State<DepositPage> {
                                             child: TextButton(
                                               onPressed: () => amountController
                                                   .text = "200.000",
-                                              child: Text("200.000đ",
-                                                  style: const TextStyle(
+                                              child: const Text("200.000đ",
+                                                  style: TextStyle(
                                                       fontSize: 13)),
                                             ),
                                           ),
@@ -309,8 +309,8 @@ class _DepositPage extends State<DepositPage> {
                                             child: TextButton(
                                               onPressed: () => amountController
                                                   .text = "500.000",
-                                              child: Text("500.000đ",
-                                                  style: const TextStyle(
+                                              child: const Text("500.000đ",
+                                                  style: TextStyle(
                                                       fontSize: 13)),
                                             ),
                                           ),
@@ -321,7 +321,7 @@ class _DepositPage extends State<DepositPage> {
                                       children: [
                                         Expanded(
                                           child: Padding(
-                                            padding: EdgeInsets.symmetric(
+                                            padding: const EdgeInsets.symmetric(
                                                 vertical: 15, horizontal: 15),
                                             child: Container(
                                                 margin: const EdgeInsets.all(0),
@@ -397,7 +397,7 @@ class _DepositPage extends State<DepositPage> {
     }
     if (isNull) {
       listWidget.add(
-          Text("Bạn vẫn chưa liên kết với ngân hàng nào cả! Hãy liên kết nhé"));
+          const Text("Bạn vẫn chưa liên kết với ngân hàng nào cả! Hãy liên kết nhé"));
     }
     return listWidget;
   }

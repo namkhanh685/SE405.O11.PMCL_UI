@@ -14,6 +14,14 @@ class RequestFactory {
     };
   }
 
+  createPaypalOTP(String phoneNumber, String otp){
+    return {
+      "otp": otp,
+      "phone_number": phoneNumber,
+      "email": "sb-qypaq28681777@personal.example.com"
+    };
+  }
+
   createLogin(String username, String password, String fcmToken) {
     return {
       "username": username,

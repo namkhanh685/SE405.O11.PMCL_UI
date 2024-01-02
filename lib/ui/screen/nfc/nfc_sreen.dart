@@ -8,13 +8,13 @@ import 'package:nfc_e_wallet/ui/style/color.dart';
 import 'package:nfc_host_card_emulation/nfc_host_card_emulation.dart';
 
 class NFCScreen extends StatefulWidget {
-  const NFCScreen({Key? key}) : super(key: key);
+  const NFCScreen({super.key});
 
   @override
-  _NFCScreen createState() => _NFCScreen();
+  NFCScreenState createState() => NFCScreenState();
 }
 
-class _NFCScreen extends State<NFCScreen> {
+class NFCScreenState extends State<NFCScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
