@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
-import 'package:nfc_e_wallet/main.dart';
 import 'package:nfc_e_wallet/utils/toast_helper.dart';
-import 'package:nfc_manager/nfc_manager.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../style/color.dart';
 import '../../root/root_screen.dart';
@@ -12,6 +9,8 @@ import '../signup/signup_screen.dart';
 import 'authenticate_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

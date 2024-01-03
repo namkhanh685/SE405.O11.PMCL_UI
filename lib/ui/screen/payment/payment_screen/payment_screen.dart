@@ -1,15 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
-import 'package:nfc_e_wallet/data/model/user.dart';
-import 'package:nfc_e_wallet/data/preferences.dart';
 import 'package:nfc_e_wallet/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../style/color.dart';
 import '../payment_confirm/payment_confirm.dart';
 
@@ -65,7 +57,7 @@ class PaymentPageState extends State<PaymentPage> {
             children: [
               AspectRatio(
                 aspectRatio: MediaQuery.of(context).size.height > 600
-                    ? 390 / 630
+                    ? 390 / 675
                     : 350 / 455,
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
@@ -75,7 +67,7 @@ class PaymentPageState extends State<PaymentPage> {
                       end: Alignment.bottomCenter,
                       colors: [
                         onPrimary,
-                        Color(0xFFE0E0E0),
+                        const Color(0xFFE0E0E0),
                       ],
                     ),
                   ),
@@ -219,7 +211,7 @@ class PaymentPageState extends State<PaymentPage> {
                                                   left: 8.0, top: 10),
                                               child: Icon(Icons.message))),
                                       prefixIconConstraints:
-                                          BoxConstraints(minWidth: 40),
+                                          const BoxConstraints(minWidth: 40),
                                     ),
                                   ),
                                 ),

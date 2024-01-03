@@ -94,6 +94,8 @@ class _NFCTransferScreen extends State<NFCTransferScreen> {
                                     await nfcManager
                                         .startNFCSession()
                                         .then((result) {
+                                          print(result);
+                                          if(result!=null){
                                       showModalBottomSheet(
                                         context: context,
                                         shape: const RoundedRectangleBorder(
@@ -108,7 +110,7 @@ class _NFCTransferScreen extends State<NFCTransferScreen> {
                                             amount: amountController.text,
                                           );
                                         },
-                                      );
+                                      );}
                                     });
                                   },
                                   child: const Text(

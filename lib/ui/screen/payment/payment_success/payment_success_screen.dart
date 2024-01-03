@@ -57,6 +57,7 @@ class PaymentSuccessScreen extends StatelessWidget {
             amount = state.amount;
             final type = state.type;
             if (type == "DEPOSIT") {
+              title = "Nạp tiền thành công";
               textLine = [
                 ['Từ', state.sender],
                 ['Người nhận', user.full_name],

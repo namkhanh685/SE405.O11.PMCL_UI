@@ -15,7 +15,6 @@ import 'package:nfc_e_wallet/ui/screen/authenticate/login/authenticate_page.dart
 import 'package:nfc_e_wallet/utils/nfc_manager.dart';
 import 'package:nfc_e_wallet/utils/notification_manager.dart';
 import 'package:nfc_host_card_emulation/nfc_host_card_emulation.dart';
-import 'package:nfc_manager/nfc_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'data/model/user.dart';
 import 'data/preferences.dart';
