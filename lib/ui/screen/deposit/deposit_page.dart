@@ -13,6 +13,7 @@ import 'package:nfc_e_wallet/ui/screen/wallet/bloc/wallet_bloc.dart';
 import 'package:nfc_e_wallet/ui/style/color.dart';
 import 'package:nfc_e_wallet/ui/widgets/profile_widget.dart';
 import 'package:nfc_e_wallet/ui/widgets/toggle_widget.dart';
+import 'package:nfc_e_wallet/utils/toast_helper.dart';
 
 class DepositPage extends StatefulWidget {
   const DepositPage({super.key});
@@ -421,7 +422,20 @@ class _DepositPage extends State<DepositPage> {
         );
       });
 
-  showOtherPaymentModal(String paymentMethod) => showModalBottomSheet(
+  showOtherPaymentModal(String paymentMethod) { 
+    String amount = amountController.text;
+    if(amount==""){
+      ToastHelper.showToast("Bạn chưa nhập số tiền", status: ToastStatus.failure);
+      return;
+    }
+    if (amount.contains(RegExp(r'(\.|[đ])'))) {
+      amount = amount.replaceAll(RegExp(r'(\.|[đ])'), '');
+    }
+    if(int.parse(amount)<=0){
+      ToastHelper.showToast("Bạn chưa nhập số tiền", status: ToastStatus.failure);
+      return;
+    }
+    showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
@@ -433,4 +447,5 @@ class _DepositPage extends State<DepositPage> {
           amount: amountController.text.toString(),
         );
       });
+  }
 }

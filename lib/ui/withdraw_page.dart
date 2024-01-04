@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:nfc_e_wallet/data/model/wallet.dart';
 import 'package:nfc_e_wallet/main.dart';
+import 'package:nfc_e_wallet/utils/toast_helper.dart';
 
 import 'screen/payment/payment_confirm/payment_confirm.dart';
 import 'style/color.dart';
@@ -340,7 +341,7 @@ class _WithdrawPage extends State<WithdrawPage> {
     for (int i = 0; i < listWallet.length; i++) {
       Wallet wallet = listWallet[i];
       if (wallet.type == "Bank") {
-        isNull=false;
+        isNull = false;
         AssetImage assetImage = const AssetImage('');
         if (wallet.name == "Vietcombank") {
           assetImage =
@@ -368,8 +369,9 @@ class _WithdrawPage extends State<WithdrawPage> {
         );
       }
     }
-    if(isNull){
-      listWidget.add(Text("Bạn vẫn chưa liên kết với ngân hàng nào cả! Hãy liên kết nhé"));
+    if (isNull) {
+      listWidget.add(
+          Text("Bạn vẫn chưa liên kết với ngân hàng nào cả! Hãy liên kết nhé"));
     }
     return listWidget;
   }
@@ -387,16 +389,30 @@ class _WithdrawPage extends State<WithdrawPage> {
         );
       });
 
-  showOtherPaymentModal(String paymentMethod) => showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
-      builder: (BuildContext context) {
-        return PaymentConfirm(
-          bank: paymentMethod,
-          type: "WITHDRAW",
-          receiverPhoneNumber: user.phone_number,
-          amount: withdrawController.text,
-        );
-      });
+  showOtherPaymentModal(String paymentMethod) {
+    String amount = withdrawController.text;
+    if(amount==""){
+      ToastHelper.showToast("Bạn chưa nhập số tiền", status: ToastStatus.failure);
+      return;
+    }
+    if (amount.contains(RegExp(r'(\.|[đ])'))) {
+      amount = amount.replaceAll(RegExp(r'(\.|[đ])'), '');
+    }
+    if(int.parse(amount)<=0){
+      ToastHelper.showToast("Bạn chưa nhập số tiền", status: ToastStatus.failure);
+      return;
+    }
+    showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30))),
+        builder: (BuildContext context) {
+          return PaymentConfirm(
+            bank: paymentMethod,
+            type: "WITHDRAW",
+            receiverPhoneNumber: user.phone_number,
+            amount: withdrawController.text,
+          );
+        });
+  }
 }

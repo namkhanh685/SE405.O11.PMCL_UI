@@ -189,6 +189,7 @@ class OTPScreenState extends State<OTPScreen> {
             setState(() {
               this.url = url.toString();
             });
+            print(url);
             if (url!.queryParameters["status"] == "success") {
               final transactionId = url.queryParameters["transactionId"];
               final transactionRepo = GetIt.instance.get<TransactionRepo>();

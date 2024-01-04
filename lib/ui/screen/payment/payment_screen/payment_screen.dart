@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:nfc_e_wallet/main.dart';
+import 'package:nfc_e_wallet/utils/toast_helper.dart';
 import '../../../style/color.dart';
 import '../payment_confirm/payment_confirm.dart';
 
@@ -260,6 +261,22 @@ class PaymentPageState extends State<PaymentPage> {
                               ),
                             ),
                             onPressed: () {
+                              String amount = amountController.text;
+                              if(amount==""){
+                                ToastHelper.showToast("Bạn chưa nhập số tiền", status: ToastStatus.failure);
+                                return;
+                              }
+                              if (amount.contains(RegExp(r'(\.|[đ])'))) {
+                                amount = amount.replaceAll(RegExp(r'(\.|[đ])'), '');
+                              }
+                              if(int.parse(amount)<=0){
+                                ToastHelper.showToast("Bạn chưa nhập số tiền", status: ToastStatus.failure);
+                                return;
+                              }
+                              if(int.parse(amount)>defaultWallet.balance!){
+                                ToastHelper.showToast("Số tiền bạn không đủ", status: ToastStatus.failure);
+                                return;
+                              }
                               showModalBottomSheet(
                                 context: context,
                                 shape: const RoundedRectangleBorder(
